@@ -24,6 +24,7 @@ window.log4 = value => {
   console.log('%cspecial:', 'color: #722ed1; font-weight: 500;', value);
 };
 
+// 是否url
 export function isUrl(string) {
   const protocolRE = /^(?:\w+:)?\/\/(\S+)$/;
   // const domainRE = /^[^\s\.]+\.\S{2,}$/;
