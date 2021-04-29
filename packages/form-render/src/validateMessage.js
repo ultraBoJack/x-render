@@ -1,5 +1,6 @@
 const typeTemplate = '${title} is not a valid ${type}';
 
+// 默认校验消息
 export const defaultValidateMessages = {
   default: 'Validation error on field ${title}',
   required: '${title} is required',

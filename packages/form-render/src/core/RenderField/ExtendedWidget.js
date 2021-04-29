@@ -8,6 +8,7 @@ import { isObjType, isListType } from '../../utils';
 // import { Input } from 'antd';
 // import Map from '../../widgets/antd/map';
 
+// 错误schema组件展示
 const ErrorSchema = schema => {
   return (
     <div>
@@ -17,6 +18,7 @@ const ErrorSchema = schema => {
   );
 };
 
+// 扩展的widget
 const ExtendedWidget = ({
   schema,
   onChange,
@@ -97,6 +99,7 @@ const ExtendedWidget = ({
   return <Widget {...finalProps} />;
 };
 
+// 判断前后props是否一致
 const areEqual = (prev, current) => {
   if (prev.schema && prev.schema.$id === '#') {
     return false;
@@ -113,4 +116,5 @@ const areEqual = (prev, current) => {
   return false;
 };
 
+// 返回true则使用上次渲染结果，false重新渲染
 export default React.memo(ExtendedWidget, areEqual);

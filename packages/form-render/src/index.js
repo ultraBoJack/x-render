@@ -12,6 +12,7 @@ import './index.less';
 
 // 其他入参 watch: {"a.b.c": (value) => { ... }, }
 
+// 默认 finish 回调
 const defaultFinish = (data, error) => {
   console.log(data, error);
 };

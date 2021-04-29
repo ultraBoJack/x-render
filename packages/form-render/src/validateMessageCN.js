@@ -1,5 +1,6 @@
 const typeTemplate = '${title}的类型不是${type}';
 
+// 默认校验消息（中文）
 export const defaultValidateMessagesCN = {
   default: '${title}未通过校验',
   required: '${title}必填',

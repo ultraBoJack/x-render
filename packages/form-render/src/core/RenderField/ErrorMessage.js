@@ -1,3 +1,5 @@
+// 校验错误显示组件
+
 import React from 'react';
 import { translateMessage } from '../../utils';
 import './ErrorMessage.less';

@@ -1,3 +1,4 @@
+// 渲染组件标题
 import React from 'react';
 import { useStore2 } from '../../hooks';
 import { isCheckBoxType } from '../../utils';

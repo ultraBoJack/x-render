@@ -32,6 +32,7 @@ export function isUrl(string) {
   return protocolRE.test(string);
 }
 
+// 是否checkbox
 export function isCheckBoxType(schema, readOnly) {
   if (readOnly) return false;
   if (schema.widget === 'checkbox') return true;
@@ -42,6 +43,7 @@ export function isCheckBoxType(schema, readOnly) {
   }
 }
 
+// 去除空的中括号
 // a[].b.c => a.b.c
 function removeBrackets(string) {
   if (typeof string === 'string') {
@@ -51,6 +53,8 @@ function removeBrackets(string) {
   }
 }
 
+// 获取父级的路径
+// a.b.c => a.b
 export function getParentPath(path) {
   if (typeof path === 'string') {
     const pathArr = path.split('.');
@@ -63,6 +67,7 @@ export function getParentPath(path) {
   return '#';
 }
 
+// 根据路径获取formData值
 export function getValueByPath(formData, path) {
   if (path === '#' || !path) {
     return formData || {};
@@ -73,6 +78,7 @@ export function getValueByPath(formData, path) {
   }
 }
 
+// 解构数据路径
 //  path: 'a.b[1].c[0]' => { id: 'a.b[].c[]'  dataIndex: [1,0] }
 export function destructDataPath(path) {
   let id;
@@ -97,6 +103,7 @@ export function destructDataPath(path) {
   return { id, dataIndex };
 }
 
+// 从解构的数据路径中重新组合成js可读取的数据路径
 // id: 'a.b[].c[]'  dataIndex: [1,0] =>  'a.b[1].c[0]'
 export function getDataPath(id, dataIndex) {
   if (id === '#') {
@@ -130,6 +137,7 @@ export function isListType(schema) {
   );
 }
 
+// 展开schema
 // TODO: 检验是否丢进去各种schema都能兜底不会crash
 export function flattenSchema(_schema = {}, name = '#', parent, result = {}) {
   const schema = clone(_schema); // TODO: 是否需要deepClone，这个花费是不是有点大
@@ -172,10 +180,12 @@ export function flattenSchema(_schema = {}, name = '#', parent, result = {}) {
 
 //////////   old
 
+// 是否包含给定字符
 function stringContains(str, text) {
   return str.indexOf(text) > -1;
 }
 
+// 是否object
 export const isObject = a =>
   stringContains(Object.prototype.toString.call(a), 'Object');
 
@@ -189,6 +199,7 @@ export const isObject = a =>
 //   }
 // }
 
+// 深拷贝
 export const clone = cloneDeep;
 // export const clone = clone1;
 
@@ -206,6 +217,7 @@ export const clone = cloneDeep;
 //   return data;
 // };
 
+// 是否宽松数字类型
 // '3' => true, 3 => true, undefined => false
 export function isLooselyNumber(num) {
   if (typeof num === 'number') return true;
@@ -215,6 +227,7 @@ export function isLooselyNumber(num) {
   return false;
 }
 
+// 是否css长度
 export function isCssLength(str) {
   if (typeof str !== 'string') return false;
   return str.match(/^([0-9])*(%|px|rem|em)$/i);
@@ -286,6 +299,7 @@ export function getFormat(format) {
   return dateFormat;
 }
 
+// 数组中是否有重复成员
 export function hasRepeat(list) {
   return list.find(
     (x, i, self) =>
@@ -295,6 +309,7 @@ export function hasRepeat(list) {
 
 // ----------------- schema 相关
 
+// 此处将uiSchema内容对应schema属性进行合并
 // 合并propsSchema和UISchema。由于两者的逻辑相关性，合并为一个大schema能简化内部处理
 export function combineSchema(propsSchema = {}, uiSchema = {}) {
   const propList = getChildren(propsSchema);
@@ -408,6 +423,7 @@ export function isExpression(func) {
   return false;
 }
 
+// 解析单个表达式
 export function parseSingleExpression(func, formData = {}, dataPath) {
   const parentPath = getParentPath(dataPath);
   const parent = getValueByPath(formData, parentPath) || {};
@@ -431,6 +447,7 @@ export function parseSingleExpression(func, formData = {}, dataPath) {
   } else return func;
 }
 
+// 判断schema中是否包含表达式
 export const schemaContainsExpression = (schema, shallow = true) => {
   if (isObject(schema)) {
     return Object.keys(schema).some(key => {
@@ -487,7 +504,7 @@ export function isFunctionSchema(schema) {
   });
 }
 
-// 例如当前item的id = '#/obj/input'  propName: 'ui:labelWidth' 往上一直找，直到找到第一个不是undefined的值 TODO: 看看是否ok
+// 获取父级的属性 例如当前item的id = '#/obj/input'  propName: 'ui:labelWidth' 往上一直找，直到找到第一个不是undefined的值 TODO: 看看是否ok
 export const getParentProps = (propName, id, flatten) => {
   try {
     const item = flatten[id];
@@ -505,6 +522,7 @@ export const getParentProps = (propName, id, flatten) => {
   }
 };
 
+// 获取save次数
 export const getSaveNumber = () => {
   const searchStr = localStorage.getItem('SAVES');
   if (searchStr) {
@@ -520,6 +538,7 @@ export const getSaveNumber = () => {
   }
 };
 
+// 以宽松模式解析JSON
 export function looseJsonParse(obj) {
   return Function('"use strict";return (' + obj + ')')();
 }
@@ -542,6 +561,7 @@ function getChildren2(schema) {
     schemaSubs = properties;
   }
   if (type === 'array') {
+    // 注意： 此处与 getChildren 的区别
     schemaSubs = items.properties;
   }
   return Object.keys(schemaSubs).map(name => ({
@@ -550,6 +570,7 @@ function getChildren2(schema) {
   }));
 }
 
+// 转换旧的schema为新版 propsSchema => schema
 export const oldSchemaToNew = schema => {
   if (schema && schema.propsSchema) {
     const { propsSchema, ...rest } = schema;
@@ -558,6 +579,7 @@ export const oldSchemaToNew = schema => {
   return schema;
 };
 
+// 新的schema转换为旧的 schema => propsSchema
 export const newSchemaToOld = setting => {
   if (setting && setting.schema) {
     const { schema, ...rest } = setting;
@@ -568,6 +590,7 @@ export const newSchemaToOld = setting => {
 
 // from FR
 
+// 获取枚举数据
 export const getEnum = schema => {
   if (!schema) return undefined;
   const itemEnum = schema && schema.items && schema.items.enum;
@@ -575,11 +598,13 @@ export const getEnum = schema => {
   return itemEnum ? itemEnum : schemaEnum;
 };
 
+// 获取数据
 export const getArray = (arr, defaultValue = []) => {
   if (Array.isArray(arr)) return arr;
   return defaultValue;
 };
 
+// 是否email
 export const isEmail = value => {
   const regex = '^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$';
   if (value && new RegExp(regex).test(value)) {
@@ -588,6 +613,7 @@ export const isEmail = value => {
   return false;
 };
 
+// 获取event的某个属性
 export function defaultGetValueFromEvent(valuePropName, ...args) {
   const event = args[0];
   if (event && event.target && valuePropName in event.target) {
@@ -596,6 +622,7 @@ export function defaultGetValueFromEvent(valuePropName, ...args) {
   return event;
 }
 
+// 获取key a.b.c => c
 export const getKeyFromPath = path => {
   try {
     const keyList = path.split('.');
@@ -645,6 +672,7 @@ export const removeEmptyItemFromList = formData => {
   return result;
 };
 
+// 获取描述符
 export const getDescriptorFromSchema = ({ schema, isRequired = true }) => {
   let result = {};
   let singleResult = {};
@@ -657,7 +685,7 @@ export const getDescriptorFromSchema = ({ schema, isRequired = true }) => {
     result.fields = {};
     Object.keys(schema.properties).forEach(key => {
       const item = schema.properties[key];
-      // 兼容旧的！
+      // 兼容旧的！旧版本中 required 为数组，包含必填的字段名
       if (Array.isArray(schema.required) && schema.required.indexOf(key) > -1) {
         item.required = true;
       }
@@ -815,6 +843,8 @@ export const formatPathFromValidator = err => {
 //     },
 //   },
 // };
+
+// 路径是否必填
 // path = 'x.y'
 // return {required: true, message?: 'xxxx'}
 export const isPathRequired = (path, schema) => {
@@ -848,6 +878,7 @@ export const isPathRequired = (path, schema) => {
   }
 };
 
+// 生成数据骨架
 export const generateDataSkeleton = schema => {
   let result = {};
   if (isObjType(schema)) {
@@ -866,6 +897,7 @@ export const generateDataSkeleton = schema => {
   return result;
 };
 
+// 转换消息
 export const translateMessage = (msg, schema) => {
   if (typeof msg !== 'string') {
     return '';
@@ -922,6 +954,7 @@ export const translateMessage = (msg, schema) => {
 //   }
 // }
 
+// 更改schema
 const changeSchema = (_schema, singleChange) => {
   let schema = clone(_schema);
   schema = singleChange(schema);
@@ -951,6 +984,7 @@ export const updateSchemaToNewVersion = schema => {
   return changeSchema(schema, updateSingleSchema);
 };
 
+// 更新单个schema
 const updateSingleSchema = schema => {
   try {
     schema.rules = schema.rules || [];
@@ -1044,6 +1078,7 @@ export const parseFunctionString = string => {
   return false;
 };
 
+// 给schema配置主题
 export const completeSchemaWithTheme = (schema = {}, theme = {}) => {
   let result = {};
   if (isObject(schema)) {
@@ -1059,6 +1094,7 @@ export const completeSchemaWithTheme = (schema = {}, theme = {}) => {
   return result;
 };
 
+// 过滤空数据
 export const cleanEmpty = obj => {
   if (Array.isArray(obj)) {
     return obj
@@ -1073,6 +1109,7 @@ export const cleanEmpty = obj => {
   }
 };
 
+// 过滤隐藏字段
 export const removeHiddenFromResult = (data, flatten) => {
   Object.keys(flatten).forEach(key => {
     const hidden = flatten[key].schema && flatten[key].schema.hidden === true; // TODO: 有表达式的情况

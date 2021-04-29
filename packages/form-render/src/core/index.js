@@ -1,3 +1,4 @@
+// 渲染的核心入口
 import React, { useRef } from 'react';
 import RenderList from './RenderChildren/RenderList';
 import RenderObject from './RenderChildren/RenderObject';
@@ -38,7 +39,7 @@ const Core = ({
   const _value = getValueByPath(formData, dataPath);
   let schema = clone(item.schema); // TODO: 用deepClone，函数啥的才能正常copy，但是deepClone的代价是不是有点大，是否应该让用户避免schema里写函数
 
-  // 节流部分逻辑，编辑时不执行
+  // 防抖部分逻辑，编辑时不执行
   if (isEditing && snapShot.current) {
     schema = snapShot.current;
   } else {
@@ -144,7 +145,7 @@ const CoreRender = ({
       break;
     default:
   }
-  // column specific className
+  // 非复杂组件的样式class
   if (!isComplex && !isCheckBox) {
     if (_displayType === 'column') {
       containerClass += ' flex-column';

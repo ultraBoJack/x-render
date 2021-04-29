@@ -1,5 +1,6 @@
 import React from 'react';
 
+// 组件只读状态（readOnly）时渲染为html组件展示
 export default function html({ value, schema }) {
   let __html = '-';
   if (schema.type === 'boolean') {

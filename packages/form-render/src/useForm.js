@@ -169,6 +169,7 @@ export const useForm = props => {
   //   { name: 'a.b.c', errors: ['Please input your Password!', 'something else is wrong'] },
   // ]
 
+  // 同步状态
   const syncStuff = ({
     schema,
     locale,

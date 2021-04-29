@@ -1,13 +1,22 @@
 import { useRef, useEffect, useMemo } from 'react';
 
-function useDebouncedCallback(func, wait, options) {
+// 防抖
+function useDebouncedCallback (func, wait, options) {
+  // 上次调用时间
   const lastCallTime = useRef(null);
+  // 上次唤醒时间
   const lastInvokeTime = useRef(0);
+  // 定时器id
   const timerId = useRef(null);
+  // 上次的参数
   const lastArgs = useRef([]);
+  // 上次的this
   const lastThis = useRef();
+  // 调用结果
   const result = useRef();
+  // 方法的ref
   const funcRef = useRef(func);
+  // 是否已挂载
   const mounted = useRef(true);
 
   funcRef.current = func;

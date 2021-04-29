@@ -3,11 +3,13 @@ import { Collapse } from 'antd';
 import { useStore2 } from '../../hooks';
 const { Panel } = Collapse;
 
+// 大对象组件
 export default function map({ children, title, ...rest }) {
   const { theme, displayType } = useStore2();
   if (!title) {
     return <div className="w-100">{children}</div>;
   }
+  // 主题 '1' 采用
   if (theme == '1') {
     return (
       <div className="w-100">

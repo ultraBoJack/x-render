@@ -1,3 +1,5 @@
+// 组件渲染的映射规则
+
 export const mapping = {
   default: 'input',
   string: 'input',
@@ -33,6 +35,7 @@ export const mapping = {
   '*?readOnly': 'html', // TODO: 只读模式加上后，这儿要还要2个自定义组件。一个渲染list，一个渲染select
 };
 
+// 获取需要渲染的widget名称
 export function getWidgetName(schema, _mapping = mapping) {
   const { type, format, enum: enums, readOnly, widget } = schema;
 
@@ -42,12 +45,14 @@ export function getWidgetName(schema, _mapping = mapping) {
   // }
 
   const list = [];
+  // 只读
   if (readOnly) {
     list.push(`${type}?readOnly`);
     list.push('*?readOnly');
   }
+  // 枚举类型，分情况渲染不同的组件
   if (enums) {
-    // 根据enum长度来智能选择控件
+    // 根据enum长度来智能选择控件，同时会有兜底策略
     if (
       Array.isArray(enums) &&
       ((type === 'array' && enums.length > 6) ||
@@ -61,12 +66,15 @@ export function getWidgetName(schema, _mapping = mapping) {
       list.push('*?enum');
     }
   }
+  // 自定义组件widget
   const _widget = widget || format;
   if (_widget) {
     list.push(`${type}:${_widget}`);
   }
-  list.push(type); // 放在最后兜底，其他都不match时使用type默认的组件
+  // 放在最后兜底，其他都不match时使用type默认的组件
+  list.push(type);
   let found = '';
+  // 从组件映射mapping中查找到list中第一个匹配的组件名称进行渲染
   list.some(item => {
     found = _mapping[item];
     return !!found;
@@ -74,11 +82,14 @@ export function getWidgetName(schema, _mapping = mapping) {
   return found;
 }
 
+// 额外schema列表
 export const extraSchemaList = {
   checkbox: {
+    // 受控的属性名，对应antd中的checkbox受控checked
     valuePropName: 'checked',
   },
   switch: {
+    // 受控的属性名，对应antd中的switch受控checked
     valuePropName: 'checked',
   },
 };
