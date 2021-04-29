@@ -81,7 +81,7 @@ const RenderField = props => {
   };
 
   const _showTitle = !hideTitle && !!_schema.title;
-  // TODO: 这块最好能判断上一层是list1，
+  // TODO: 这块最好能判断上一层是list
   if (hideTitle && _schema.title) {
     _schema.placeholder = _schema.placeholder || _schema.title;
   }
