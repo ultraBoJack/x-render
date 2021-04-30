@@ -1,3 +1,5 @@
+// 简单列表
+
 import React from 'react';
 import Core from '../../index';
 import { Button, Popconfirm } from 'antd';

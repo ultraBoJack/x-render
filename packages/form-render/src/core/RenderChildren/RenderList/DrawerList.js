@@ -1,3 +1,5 @@
+// 抽屉列表
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef } from 'react';
 import Core from '../../index';
@@ -99,6 +101,7 @@ const DrawerList = ({
 
   const fieldsProps = getFieldsProps(currentIndex.current);
 
+  // 打开抽屉列表
   const openDrawer = index => {
     currentIndex.current = index;
     setState({
@@ -106,6 +109,7 @@ const DrawerList = ({
     });
   };
 
+  // 关闭抽屉列表
   const closeDrawer = () => {
     currentIndex.current = -1;
     setState({
@@ -113,6 +117,7 @@ const DrawerList = ({
     });
   };
 
+  // 处理增加一个
   const handleAdd = () => {
     const newIndex = addItem();
     openDrawer(newIndex);

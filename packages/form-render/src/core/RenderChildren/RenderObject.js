@@ -1,3 +1,5 @@
+// 渲染object大对象组件，主要是遍历children进行递归渲染
+
 import React from 'react';
 import Core from '../index';
 

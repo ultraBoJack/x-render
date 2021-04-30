@@ -1,3 +1,5 @@
+// card列表-默认
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Core from '../../index';
@@ -30,9 +32,13 @@ const CardList = ({
               }`}
               key={idx}
             >
+              {/* 列表项序号 */}
               <div className="fr-card-index">{idx + 1}</div>
+
+              {/* 实际渲染组件 */}
               <Core {...fieldsProps} />
 
+              {/* 右侧工具栏 */}
               <Space direction="horizontal" className="fr-card-toolbar">
                 <Popconfirm
                   title="确定删除?"

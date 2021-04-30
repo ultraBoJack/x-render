@@ -47,6 +47,7 @@ const RenderList = ({
     return newIndex;
   };
 
+  // 数组列表中复制某一条数据
   const copyItem = idx => {
     const newItem = displayList[idx];
     const newList = [
@@ -57,6 +58,7 @@ const RenderList = ({
     onItemChange(dataPath, newList);
   };
 
+  // 数组列表中删除某一条数据
   const deleteItem = idx => {
     // TODO: 删除元素的时候，也需要delete相对于的校验信息（errorFields）
     // remark: 删除时，不存在的item需要补齐，用null
@@ -65,6 +67,7 @@ const RenderList = ({
     removeTouched(`${dataPath}[${idx}]`);
   };
 
+  // 向上，与前一个调换位置，用在 DrawerList 中
   //TODO1: 上线翻页要正确！！现在是错的
   const moveItemUp = idx => {
     if (idx === 0) return;
@@ -76,6 +79,7 @@ const RenderList = ({
     onItemChange(dataPath, newList);
   };
 
+  // 向下，与后一个调换位置，用在 DrawerList 中
   const moveItemDown = idx => {
     if (idx >= displayList.length - 1) return;
     const currentItem = displayList[idx];
@@ -85,7 +89,7 @@ const RenderList = ({
     newList[idx + 1] = currentItem;
     onItemChange(dataPath, newList);
   };
-
+  // 列表数据项的schema
   let itemSchema = {
     type: 'object',
     // properties: (schema.items && schema.items.properties) || {},

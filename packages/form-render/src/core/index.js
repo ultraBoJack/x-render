@@ -1,4 +1,5 @@
-// 渲染的核心入口
+// 渲染的核心组件逻辑
+
 import React, { useRef } from 'react';
 import RenderList from './RenderChildren/RenderList';
 import RenderObject from './RenderChildren/RenderObject';
