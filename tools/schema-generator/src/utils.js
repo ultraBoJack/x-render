@@ -1,10 +1,12 @@
 import { nanoid } from 'nanoid';
 import deepClone from 'clone';
 
+// 是否包含字符
 function stringContains(str, text) {
   return str.indexOf(text) > -1;
 }
 
+// 是否object
 export const isObject = a =>
   stringContains(Object.prototype.toString.call(a), 'Object');
 
@@ -17,6 +19,7 @@ export function isLooselyNumber(num) {
   return false;
 }
 
+// 是否css长度
 export function isCssLength(str) {
   if (typeof str !== 'string') return false;
   return str.match(/^([0-9])*(%|px|rem|em)$/i);
@@ -201,11 +204,13 @@ export function flattenSchema(schema, name = '#', parent, result = {}) {
   return result;
 }
 
+// 根据唯一id获取key
 export const getKeyFromUniqueId = (uniqueId = '#') => {
   const arr = uniqueId.split('/');
   return arr[arr.length - 1];
 };
 
+// 根据唯一id改变key
 export const changeKeyFromUniqueId = (uniqueId = '#', key = 'something') => {
   const arr = uniqueId.split('/');
   if (typeof key === 'string' || typeof key === 'number') {
@@ -461,6 +466,7 @@ export const flattenToData = (flatten, id = '#') => {
   }
 };
 
+// 获取父级的props
 // 例如当前item的id = '#/obj/input'  propName: 'labelWidth' 往上一直找，直到找到第一个不是undefined的值
 export const getParentProps = (propName, id, flatten) => {
   try {
@@ -529,6 +535,7 @@ export function getDataById(object, path) {
   return index && index == length ? object : undefined;
 }
 
+// 强制转换为数组路径
 function castPath(value, object) {
   if (Array.isArray(value)) {
     return value;
@@ -536,6 +543,7 @@ function castPath(value, object) {
   return isKey(value, object) ? [value] : value.match(/([^\.\/\[\]#"']+)/g);
 }
 
+// 转换为key
 function toKey(value) {
   if (typeof value === 'string') {
     return value.replace(/^#\/?/, '');
@@ -547,6 +555,7 @@ function toKey(value) {
 const reIsDeepProp = /#\/.+\//;
 const reIsPlainProp = /^\w*$/;
 
+// 是否key
 function isKey(value, object) {
   if (Array.isArray(value)) {
     return false;
@@ -562,6 +571,7 @@ function isKey(value, object) {
   );
 }
 
+// 旧schema转成新的
 export const oldSchemaToNew = schema => {
   if (schema && schema.propsSchema) {
     const { propsSchema, ...rest } = schema;
@@ -570,6 +580,7 @@ export const oldSchemaToNew = schema => {
   return schema;
 };
 
+// 新的schema转为旧的
 export const newSchemaToOld = setting => {
   if (setting && setting.schema) {
     const { schema, ...rest } = setting;

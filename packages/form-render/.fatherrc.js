@@ -8,7 +8,7 @@ export default {
   },
   extraRollupPlugins: [
     copy({
-      targets: [{ src: 'src/index.d.ts', dest: 'dist/' }],
+      targets: [{ src: 'src/index.d.ts', dest: 'dist/' }]
     }),
   ],
   extraBabelPlugins: [

@@ -1,3 +1,5 @@
+// 左侧栏，组件/模版
+
 import React from 'react';
 import { defaultSettings } from '../Settings';
 import { useStore } from '../hooks';
@@ -7,6 +9,7 @@ import Element from './Element';
 const Left = props => {
   const { userProps = {} } = useStore();
   const { settings } = userProps;
+  // 如果传入了settings则使用自定义传入的settings，否则使用默认的defaultSettings
   const _settings = Array.isArray(settings) ? settings : defaultSettings;
 
   return (

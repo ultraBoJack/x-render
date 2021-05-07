@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+// 转换函数
 export interface Transformer {
   /** 正向的转换函数 */
   from: (schema: any) => any;
@@ -7,6 +8,7 @@ export interface Transformer {
   to: (schema: any) => any;
 }
 
+// 扩展的自定义按钮
 export interface ExtraButton {
   /** 按钮文案 */
   text: string;
@@ -15,6 +17,7 @@ export interface ExtraButton {
   [key: string]: any;
 }
 
+// widget设置
 export interface SettingWidget {
   /** 按钮生成的 schema 的 key 值 */
   name: string;
@@ -28,6 +31,7 @@ export interface SettingWidget {
   setting?: any;
 }
 
+// 设置
 export interface Setting {
   /** 最外层的分组名称 */
   title: string;
@@ -37,6 +41,7 @@ export interface Setting {
   useCommon?: boolean;
 }
 
+// 生成器属性
 export interface FRGeneratorProps {
   /** 默认一进入编辑器展示的表单对应的 schema */
   defaultValue?: any;
@@ -58,11 +63,15 @@ export interface FRGeneratorProps {
   onSchemaChange?: (schema: any) => void;
 }
 
+// 编辑器实例
 declare const FRGenerator: React.ForwardRefExoticComponent<FRGeneratorProps &
   React.RefAttributes<unknown>>;
 
+// 默认左右栏配置
 declare const defaultSettings: Setting;
+// 默认通用配置
 declare const defaultCommonSettings: any;
+// 默认全局配置
 declare const defaultGlobalSettings: any;
 
 declare const fromFormily: (schema: any) => any;
