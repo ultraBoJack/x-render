@@ -1,13 +1,17 @@
+// formily的schema与fr-generator的schema的相互转换，需要抹平schema之间的差异
+
 import { isObject, getChildren2 } from '../utils';
 
-// formily Schema => FRG schema
+// formily Schema => FRG schema, formily的schema转为fr-generator的schema
 const transformFrom = (mySchema, parent = null) => {
   const isObj = mySchema.type === 'object' && mySchema.properties;
   const isList =
     mySchema.type === 'array' && mySchema.items && mySchema.items.properties;
   const hasChildren = isObj || isList;
   // debugger;
+  // 如果没有子节点，不处理，有的话递归转换子节点
   if (!hasChildren) {
+    // 枚举类型的需要特别处理，formily中的enum为数组对象，fr-generator中为简单数组
     if (mySchema.enum && Array.isArray(mySchema.enum)) {
       const list = mySchema.enum;
       if (
@@ -56,6 +60,7 @@ const transformFrom = (mySchema, parent = null) => {
   return mySchema;
 };
 
+// formily的schema转换为fr-generator的schema
 export const fromFormily = schema => {
   const frSchema = transformFrom(schema);
   return {
@@ -63,14 +68,16 @@ export const fromFormily = schema => {
   };
 };
 
-// FRG schema => formily Schema
+// FRG schema => formily Schema, fr-generator的schema转为formily的schema
 const transformTo = (frSchema, parent = null, key = null) => {
   const isObj = frSchema.type === 'object' && frSchema.properties;
   const isList =
     frSchema.type === 'array' && frSchema.items && frSchema.items.properties;
   const hasChildren = isObj || isList;
   // debugger;
+  // 如果没有子节点，不处理，有的话递归转换子节点数据
   if (!hasChildren) {
+    // 枚举类型的需要特别处理，formily中的enum为数组对象，fr-generator中为简单数组
     if (
       frSchema.enum &&
       Array.isArray(frSchema.enum) &&
@@ -123,6 +130,7 @@ const transformTo = (frSchema, parent = null, key = null) => {
   return frSchema;
 };
 
+// fr-generator的schema转为formily的schema
 export const toFormily = schema => {
   const frSchema = schema.schema;
   return transformTo(frSchema);

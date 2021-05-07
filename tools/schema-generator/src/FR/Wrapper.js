@@ -97,14 +97,18 @@ export default function Wrapper({
   });
 
   const isActive = canDrop && isOver;
+
+  // 拖拽时预览的元素
   dragPreview(dropRef(boxRef));
 
+  // 处理组件点击
   const handleClick = e => {
     e.stopPropagation();
     const _id = inside ? '0' + $id : $id;
     setGlobal({ selected: _id });
   };
 
+  // 删除组件
   const deleteItem = e => {
     e.stopPropagation();
     const newFlatten = { ...flatten };
@@ -130,6 +134,7 @@ export default function Wrapper({
     setGlobal({ selected: newSelect });
   };
 
+  // 复制组件
   const handleItemCopy = e => {
     e.stopPropagation();
     const [newFlatten, newId] = copyItem(flatten, $id);
@@ -137,10 +142,12 @@ export default function Wrapper({
     setGlobal({ selected: newId });
   };
 
+  // 处理鼠标进入
   const handleMouseEnter = () => {
     // setGlobal({ hovering: inside ? '0' + $id : $id });
   };
 
+  // 处理鼠标离开
   const handleMouseLeave = () => {
     // TODO: 如何写hoverLeave
     // let hoverItem = '';
@@ -183,6 +190,7 @@ export default function Wrapper({
   } else if (type === 'object') {
     overwriteStyle = { ...overwriteStyle, paddingTop: 12 };
   }
+  // 激活状态样式
   if (isActive) {
     if (inside) {
       overwriteStyle = {
@@ -201,6 +209,7 @@ export default function Wrapper({
       };
     }
   }
+  // 选中状态样式
   if (isSelected) {
     overwriteStyle = {
       ...overwriteStyle,
@@ -230,6 +239,7 @@ export default function Wrapper({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* 可拖拽区域 */}
       {!inside && isSelected && $id !== '#' && (
         <div
           style={{
@@ -247,11 +257,16 @@ export default function Wrapper({
           <DragOutlined style={{ color: '#fff' }} />
         </div>
       )}
+
+      {/* 组件id显示 */}
       {!inside && (
         <div className="absolute top-0 right-1 blue f7">{shownId}</div>
       )}
+
+      {/* 子组件 */}
       {children}
 
+      {/* 组件操作区域: 删除/复制 */}
       {isSelected && !inside && $id !== '#' && (
         <div
           style={{

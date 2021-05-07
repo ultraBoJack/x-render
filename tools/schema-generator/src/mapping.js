@@ -1,4 +1,6 @@
-export function getWidgetName(schema, _mapping) {
+// 获取widget在mapping中对应的名称
+
+export function getWidgetName (schema, _mapping) {
   const { type, format, enum: enums, readonly } = schema;
 
   // 如果已经注明了渲染widget，那最好

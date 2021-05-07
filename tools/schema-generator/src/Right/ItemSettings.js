@@ -1,3 +1,5 @@
+// 组件配置
+
 import React, { useState, useEffect } from 'react';
 import FormRender, { useForm } from 'form-render';
 import { useStore } from '../hooks';
@@ -32,6 +34,7 @@ export default function ItemSettings() {
     percentSlider: PercentSlider,
   };
 
+  // 遍历获取widget列表
   const getWidgetList = (settings, commonSettings) => {
     let widgetList = [];
     settings.forEach(setting => {
@@ -45,6 +48,7 @@ export default function ItemSettings() {
     return widgetList;
   };
 
+  // 监听数据变化
   const onDataChange = (value) => {
     if (selected && value.$id) {
       try {

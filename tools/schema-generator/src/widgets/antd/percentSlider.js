@@ -1,3 +1,5 @@
+// 滑动条-输入框
+
 import React from 'react';
 import { InputNumber, Slider } from 'antd';
 

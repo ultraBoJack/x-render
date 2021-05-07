@@ -1,3 +1,5 @@
+// 右侧面板，包含表单设置、组件设置等
+
 import React, { useEffect } from 'react';
 import { Tabs } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
@@ -18,6 +20,7 @@ export default function Right() {
 
   const toggleRight = () => setState({ showRight: !showRight });
 
+  // 折叠右侧按钮
   const ToggleIcon = () => (
     <div
       className="absolute top-0 left-0 pointer"
@@ -28,6 +31,7 @@ export default function Right() {
     </div>
   );
 
+  // 展开右侧按钮
   const HideRightArrow = () => (
     <div
       className="absolute right-0 top-0 h2 flex-center"
@@ -37,7 +41,7 @@ export default function Right() {
     </div>
   );
 
-  // 如果没有选中任何item，或者是选中了根节点，object、list的内部，显示placeholder
+  // 如果没有选中任何item，或者是选中了根节点，object、list的内部，显示placeholder，否则显示组件配置
   useEffect(() => {
     if ((selected && selected[0] === '0') || selected === '#' || !selected) {
       setState({ showItemSettings: false });

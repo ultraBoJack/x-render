@@ -1,3 +1,5 @@
+// 全局（表单）设置
+
 import React, { useEffect } from 'react';
 import FormRender, { useForm } from 'form-render';
 import { defaultGlobalSettings } from '../Settings';

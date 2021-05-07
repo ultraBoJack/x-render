@@ -67,8 +67,8 @@ export const defaultCommonSettings = {
   },
 };
 
+// 基础组件
 // widget 用于schema中每个元素对应的右侧配置知道用哪个setting
-
 export const elements = [
   {
     text: '输入框',
@@ -380,6 +380,7 @@ export const elements = [
   }
 ];
 
+// 高级组件
 export const advancedElements = [
   {
     text: '日期范围',
@@ -437,6 +438,7 @@ export const advancedElements = [
   },
 ];
 
+// 布局组件
 export const layouts = [
   {
     text: 'object',
@@ -526,6 +528,7 @@ export const layouts = [
   },
 ];
 
+// 模版列表
 const saves = [
   {
     text: '复杂结构样例',
@@ -573,6 +576,7 @@ const saves = [
   },
 ];
 
+// 默认的左侧面板配置
 export const defaultSettings = [
   {
     title: '基础组件',
@@ -594,6 +598,7 @@ export const defaultSettings = [
   },
 ];
 
+// 默认的全局（表单）配置
 export const defaultGlobalSettings = {
   type: 'object',
   properties: {

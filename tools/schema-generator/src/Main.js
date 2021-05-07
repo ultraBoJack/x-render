@@ -1,3 +1,5 @@
+// 主文件
+
 import React, { useEffect, useRef, forwardRef } from 'react';
 import { useSet } from './hooks';
 // import SCHEMA from './json/basic.json';
@@ -10,6 +12,7 @@ import './Main.less';
 import 'antd/dist/antd.less';
 import { oldSchemaToNew } from './utils';
 
+// 默认的schema json
 const DEFAULT_SCHEMA = {
   schema: {
     type: 'object',
