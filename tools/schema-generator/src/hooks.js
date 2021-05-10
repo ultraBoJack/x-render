@@ -1,3 +1,5 @@
+// 自定义hooks
+
 import { useReducer, useContext, useRef, useEffect, useState } from 'react';
 import { Ctx, StoreCtx } from './context';
 
@@ -84,6 +86,7 @@ export function useInterval(callback, delay, start) {
   return () => clearInterval(id.current);
 }
 
+// 获取旧值
 export function usePrevious(value) {
   // The ref object is a generic container whose current property is mutable ...
   // ... and can hold any value, similar to an instance property on a class
@@ -98,6 +101,7 @@ export function usePrevious(value) {
   return ref.current;
 }
 
+// 显示一次
 export const useShowOnce = localKey => {
   // 从 localStorage 读取 key 值
   const [show, setShow] = useState(false);
@@ -112,6 +116,7 @@ export const useShowOnce = localKey => {
   return show;
 };
 
+// modal显示
 export const useModal = () => {
   const [show, setShow] = useState(false);
   const toggle = () => setShow(!show);
@@ -123,6 +128,7 @@ export const useWindowState = initState => {
   return [state, setState];
 };
 
+// 本地存储
 export const useStorageState = (initState = {}, searchKey = 'SAVES') => {
   // 从 localStorage 读取 search 值
   const readSearchFromStorage = () => {
