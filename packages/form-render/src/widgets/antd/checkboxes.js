@@ -1,3 +1,5 @@
+// checkbox
+
 import React from 'react';
 import { Checkbox } from 'antd';
 import { createWidget } from '../../createWidget';
