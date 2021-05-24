@@ -2,7 +2,12 @@
 
 import React from 'react';
 import { useStore } from '../hooks';
-import { isLooselyNumber, isCssLength, getParentProps, transformProps } from '../utils';
+import {
+  isLooselyNumber,
+  isCssLength,
+  getParentProps,
+  transformProps,
+} from '../utils';
 import { getWidgetName } from '../mapping';
 
 const RenderField = ({
@@ -15,7 +20,7 @@ const RenderField = ({
 }) => {
   const { schema, data } = item;
   const { onItemChange, flatten, widgets, mapping, frProps = {} } = useStore();
-  const { labelWidth, displayType, showDescIcon, showValidate } = frProps;
+  const { labelWidth, displayType, showValidate } = frProps;
   const { title, description, required } = schema;
 
   let widgetName = getWidgetName(schema, mapping);
@@ -50,7 +55,7 @@ const RenderField = ({
     labelStyle = { flexGrow: 1 };
   }
 
-  const onChange = (value) => {
+  const onChange = value => {
     const newItem = { ...item };
     if (item.schema.type === 'boolean' && item.schema.widget === 'checkbox') {
       newItem.data = !value;
@@ -74,7 +79,7 @@ const RenderField = ({
     readOnly: schema['readOnly'],
     onChange,
     schema,
-    ...schema['props']
+    ...schema['props'],
   });
 
   return (
@@ -97,18 +102,9 @@ const RenderField = ({
             >
               {title}
             </span>
-            {description &&
-              (showDescIcon ? (
-                <span className="fr-tooltip-toggle" aria-label={description}>
-                  <i className="fr-tooltip-icon" />
-                  <div className="fr-tooltip-container">
-                    <i className="fr-tooltip-triangle" />
-                    {description}
-                  </div>
-                </span>
-              ) : (
-                <span className="fr-desc ml2">(&nbsp;{description}&nbsp;)</span>
-              ))}
+            {description && (
+              <span className="fr-desc ml2">(&nbsp;{description}&nbsp;)</span>
+            )}
             {displayType !== 'row' && showValidate && (
               <span className="fr-validate">validation</span>
             )}
@@ -116,9 +112,7 @@ const RenderField = ({
         </div>
       ) : null}
       <div className={contentClass} style={contentStyle}>
-        <Widget {...usefulWidgetProps}>
-          {children || null}
-        </Widget>
+        <Widget {...usefulWidgetProps}>{children || null}</Widget>
       </div>
     </>
   );

@@ -230,10 +230,13 @@ import Form, { useForm, connectForm } from 'form-render';
 | ---------------- | ---------------------------------------------------------------- | ------------------- | ------ |
 | column           | 一行展示多少列                                                   | `number`            | 1      |
 | mapping          | schema 与组件的映射关系表，当内置的表不满足时使用                | `object`            | {}     |
+| readOnly         | 只读模式，一般用于预览展示，全文 text 展示                       | `boolean`           | false  |
+| disabled         | 禁用模式，全部表单元素禁用                                       | `boolean`           | false  |
 | debug            | 开启 debug 模式，时时显示表单内部状态                            | `boolean`           | false  |
 | debugCss         | 用于 css 问题的调整，显示 css 布局提示线                         | `boolean`           | false  |
 | locale           | 展示语言，目前只支持中文、英文                                   | `string('cn'/'en')` | 'cn'   |
 | configProvider   | antd 的 configProvider，配置透传                                 | `object`            | -      |
+| allCollapsed     | 对象组件是否默认折叠（全局）                                     | `boolean`           | false  |
 | debounceInput    | 是否开启输入时使用快照模式。仅建议在表单巨大且表达式非常多时开启 | `boolean`           | false  |
 | validateMessages | 修改默认的校验提示信息。详见下                                   | `object`            | {}     |
 
@@ -281,7 +284,7 @@ export default connectForm(Demo);
 | ---------------- | --------------------------------------------------- | ------------------------------------ |
 | submit           | 触发提交流程，一般在提交按钮上使用                  | `() => void`                         |
 | resetFields      | 清空表单（也会清空一些内置状态，例如校验）          | `() => void`                         |
-| errorFields      | Check if a field is touched                         | `array,[{name, error: []}]`          |
+| errorFields      | 表单校验错误的数组                                  | `array,[{name, error: []}]`          |
 | setErrorFields   | 外部手动修改 errorFields 校验信息，用于外部校验回填 | `(error: Error | Error[]) => void`   |
 | setValues        | 外部手动修改 formData，用于已填写的表单的数据回填   | `(formData: any) => void`            |
 | setValueByPath   | 外部修改指定单个 field 的数据(原名 onItemChange)    | `(path: string, value: any) => void` |
@@ -296,7 +299,7 @@ export default connectForm(Demo);
 
 **对于初学者来说记住 schema 所有的字段和使用方式并非易事。为了让大家能够快速上手，建议以以下的顺序尝试：**
 
-1. 去[playground](/playground) 逛逛，那里有从基础玩法、高级功能到完整样例的所有 schema 样例
+1. 去 [Playground](/playground) 逛逛，那里有从基础玩法、高级功能到完整样例的所有 schema 样例
 2. 玩转一下 [表单设计器](https://x-render.gitee.io/tools/generator)，拖拖拽拽导出 schema，丢到代码里生成可用表单。本质上这是一个可视化的 schema 生成器，支持 schema 的导入 & 导出
 
    <div>
@@ -304,4 +307,4 @@ export default connectForm(Demo);
      <img src="https://gw.alipayobjects.com/mdn/rms_e18934/afts/img/A*FfTuRYjRd1AAAAAAAAAAAABkARQnAQ?raw=true" alt="schema编辑器" width='500px' />
    </div>
 
-3. 详细的 schema 规范见[schema 的文档](/form-render/schema)。同时在 vscode 上搜索“formrender”可以找到 snippets 插件，手熟起来一整页表单的 schema 弹指间完成
+3. 详细的 schema 规范见 [schema 的文档](/form-render/schema)。同时在 vscode 上搜索 `formrender` 可以找到 snippets 插件，手熟起来一整页表单的 schema 弹指间完成

@@ -454,6 +454,16 @@ export const schemaContainsExpression = (schema, shallow = true) => {
       const value = schema[key];
       if (typeof value === 'string') {
         return isExpression(value);
+      } else if (
+        typeof key === 'string' &&
+        key.toLowerCase().indexOf('props') > -1
+      ) {
+        const propsObj = schema[key];
+        if (isObject(propsObj)) {
+          return Object.keys(propsObj).some(k => {
+            return isExpression(propsObj[k]);
+          });
+        }
       } else if (!shallow && isObject(value)) {
         return schemaContainsExpression(value, false);
       }
@@ -736,7 +746,20 @@ export const getDescriptorFromSchema = ({ schema, isRequired = true }) => {
 
     switch (schema.type) {
       case 'range':
-        singleResult.type = 'array';
+        const rangeValidator = {
+          validator: (rule, value) => {
+            if (!value) return true;
+            if (Array.isArray(value)) {
+              if (value[0] && value[1]) {
+                return true;
+              }
+              return false;
+            }
+            return false;
+          },
+          message: '${title}必填',
+        };
+        singleResult = rangeValidator;
         break;
       case 'html':
         singleResult.type = 'string';

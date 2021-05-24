@@ -34,7 +34,7 @@ const transformFrom = (mySchema, parent = null) => {
       if (isList) {
         mySchema.items.properties[item.name] = transformFrom(
           item.schema,
-          mySchema,
+          mySchema
         );
       }
     });
@@ -62,10 +62,7 @@ const transformFrom = (mySchema, parent = null) => {
 
 // formily的schema转换为fr-generator的schema
 export const fromFormily = schema => {
-  const frSchema = transformFrom(schema);
-  return {
-    schema: frSchema,
-  };
+  return transformFrom(schema);
 };
 
 // FRG schema => formily Schema, fr-generator的schema转为formily的schema
@@ -97,14 +94,14 @@ const transformTo = (frSchema, parent = null, key = null) => {
         frSchema.properties[item.name] = transformTo(
           item.schema,
           frSchema,
-          item.name,
+          item.name
         );
       }
       if (isList) {
         frSchema.items.properties[item.name] = transformTo(
           item.schema,
           frSchema,
-          item.name,
+          item.name
         );
       }
     });
@@ -132,6 +129,5 @@ const transformTo = (frSchema, parent = null, key = null) => {
 
 // fr-generator的schema转为formily的schema
 export const toFormily = schema => {
-  const frSchema = schema.schema;
-  return transformTo(frSchema);
+  return transformTo(schema);
 };

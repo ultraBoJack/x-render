@@ -10,11 +10,12 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import './atom.less';
 import './index.less';
 
-// 其他入参 watch: {"a.b.c": (value) => { ... }, }
+const defaultBeforeFinish = props => {
+  console.log('beforeFinish:', props);
+};
 
-// 默认 finish 回调
-const defaultFinish = (data, error) => {
-  console.log(data, error);
+const defaultFinish = (data, errors) => {
+  console.log('onFinish:', { data, errors });
 };
 
 export { defaultWidgets as widgets, defaultMapping as mapping };
@@ -26,7 +27,7 @@ function App({
   widgets,
   mapping,
   form,
-  beforeFinish = defaultFinish,
+  beforeFinish = defaultBeforeFinish,
   onFinish = defaultFinish,
   displayType = 'column',
   schema,
@@ -43,6 +44,8 @@ function App({
   onMount,
   labelWidth,
   readOnly,
+  disabled,
+  allCollapsed = false,
   onValuesChange,
   column,
   ...rest
@@ -53,6 +56,7 @@ function App({
     console.error('form 为必填 props，<FormRender /> 没有接收到 form 属性!');
   }
 
+  const _column = schema.column || column;
   const {
     onItemChange,
     setEditing,
@@ -121,22 +125,26 @@ function App({
     () => ({
       displayType,
       theme,
-      column,
+      column: _column,
       debounceInput,
       debug,
       labelWidth,
       locale,
       readOnly,
+      disabled,
+      allCollapsed,
     }),
     [
       displayType,
       theme,
-      column,
+      _column,
       debounceInput,
       debug,
       labelWidth,
       locale,
       readOnly,
+      disabled,
+      allCollapsed,
     ]
   );
 

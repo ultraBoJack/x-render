@@ -20,6 +20,14 @@ const TableList = ({
   changeList,
 }) => {
   const { props = {}, itemProps } = schema;
+  const { pagination = {} } = props;
+
+  const paginationConfig = pagination && {
+    size: 'small',
+    hideOnSinglePage: true,
+    ...pagination,
+  };
+
   const dataSource = displayList.map((item, idx) => {
     return { index: idx };
   });
@@ -54,31 +62,34 @@ const TableList = ({
     };
   });
 
-  columns.push({
-    title: '操作',
-    key: '$action',
-    fixed: 'right',
-    width: 60,
-    render: (value, record, idx) => {
-      return (
-        <Popconfirm
-          title="确定删除?"
-          onConfirm={() => deleteItem(idx)}
-          okText="确定"
-          cancelText="取消"
-        >
-          <a>删除</a>
-        </Popconfirm>
-      );
-    },
-  });
+  if (!props.hideDelete) {
+    columns.push({
+      title: '操作',
+      key: '$action',
+      fixed: 'right',
+      render: (value, record, idx) => {
+        return (
+          <Popconfirm
+            title="确定删除?"
+            onConfirm={() => deleteItem(idx)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <a>删除</a>
+          </Popconfirm>
+        );
+      },
+    });
+  }
 
   return (
     <>
       <div className="w-100 mb2 tr">
-        <Button type="primary" size="small" onClick={addItem}>
-          新增
-        </Button>
+        {!props.hideAdd && (
+          <Button type="primary" size="small" onClick={addItem}>
+            新增
+          </Button>
+        )}
         {Array.isArray(props.buttons)
           ? props.buttons.map((item, idx) => {
               const { callback, text, html } = item;
@@ -117,7 +128,7 @@ const TableList = ({
         dataSource={dataSource}
         rowKey="index"
         size="small"
-        pagination={{ size: 'small', hideOnSinglePage: true }}
+        pagination={paginationConfig}
       />
     </>
   );

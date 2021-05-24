@@ -206,7 +206,7 @@ export const useForm = props => {
 
   const getSchemaByPath = path => {
     try {
-      return flatten[path].schema;
+      return _flatten.current[path].schema;
     } catch (error) {
       console.error(error, 'getSchemaByPath');
       return {};
@@ -236,10 +236,10 @@ export const useForm = props => {
     _setErrors(newError);
   };
 
-  const getValues = () => processData(_data.current, flatten);
+  const getValues = () => processData(_data.current, _flatten.current);
 
   const setValues = newFormData => {
-    const newData = transformDataWithBind2(newFormData, flatten);
+    const newData = transformDataWithBind2(newFormData, _flatten.current);
     _setData(newData);
   };
 
@@ -249,7 +249,7 @@ export const useForm = props => {
     // TODO: 更多的处理，注意处理的时候一定要是copy一份formData，否则submitData会和表单操作实时同步的。。而不是submit再变动了
 
     // 开始校验。如果校验写在每个renderField，也会有问题，比如table第一页以外的数据是不渲染的，所以都不会触发，而且校验还有异步问题
-    validateAll({
+    return validateAll({
       formData: _data.current,
       schema: schemaRef.current,
       touchedKeys: [],
@@ -266,27 +266,29 @@ export const useForm = props => {
           });
         }
         if (typeof beforeFinishRef.current === 'function') {
-          Promise.resolve(processData(_data.current, flatten)).then(res => {
+          return Promise.resolve(processData(_data.current, flatten)).then(res => {
             setState({
               isValidating: true,
               isSubmitting: false,
               outsideValidating: true,
               submitData: res,
             });
+            return errors;
           });
-          return;
         }
-        Promise.resolve(processData(_data.current, flatten)).then(res => {
+        return Promise.resolve(processData(_data.current, flatten)).then(res => {
           setState({
             isValidating: false,
             isSubmitting: true,
             submitData: res,
           });
+          return errors;
         });
       })
       .catch(err => {
         // 不应该走到这边的
         console.log('submit error:', err);
+        return err;
       });
   };
 
