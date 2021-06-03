@@ -58,7 +58,7 @@ const RenderList = ({
       newItem,
       ...displayList.slice(idx),
     ];
-    onItemChange(dataPath, newList);
+    onItemChange(dataPath, JSON.parse(JSON.stringify(newList)));
   };
 
   // 数组列表中删除某一条数据
@@ -80,6 +80,8 @@ const RenderList = ({
     newList[idx] = itemAbove;
     newList[idx - 1] = currentItem;
     onItemChange(dataPath, newList);
+    // TODO: 这块懒了，之后要处理一下
+    removeTouched(`${dataPath}[${idx}]`);
   };
 
   // 向下，与后一个调换位置，用在 DrawerList 中
@@ -91,6 +93,8 @@ const RenderList = ({
     newList[idx] = itemBelow;
     newList[idx + 1] = currentItem;
     onItemChange(dataPath, newList);
+    // TODO: 这块懒了，之后要处理一下
+    removeTouched(`${dataPath}[${idx}]`);
   };
   // 列表数据项的schema
   let itemSchema = {

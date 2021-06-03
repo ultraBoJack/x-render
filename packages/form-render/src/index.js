@@ -56,7 +56,7 @@ function App({
     console.error('form 为必填 props，<FormRender /> 没有接收到 form 属性!');
   }
 
-  const _column = schema.column || column;
+  const _column = (schema && schema.column) || column;
   const {
     onItemChange,
     setEditing,
@@ -73,6 +73,7 @@ function App({
     setErrorFields,
     removeErrorField,
     removeTouched,
+    changeTouchedKeys,
     syncStuff,
     ...valuesThatWillChange
   } = form;
@@ -160,6 +161,7 @@ function App({
       setErrorFields,
       removeErrorField,
       removeTouched,
+      changeTouchedKeys,
     }),
     []
   );
@@ -207,17 +209,22 @@ function App({
             <div className={`fr-container ${sizeCls}`}>
               {debug ? (
                 <div className="mv2 bg-black-05 pa2 br2">
-                  <div>{'formData:' + JSON.stringify(form.formData)}</div>
+                  <div style={{ display: 'flex' }}>
+                    <span>formData:</span>
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        wordBreak: 'break-all',
+                        maxWidth: 600,
+                      }}
+                    >
+                      {JSON.stringify(form.formData)}
+                    </span>
+                  </div>
                   <div>{'errorFields:' + JSON.stringify(form.errorFields)}</div>
                   <div>{'touchedKeys:' + JSON.stringify(form.touchedKeys)}</div>
                   <div>{'allTouched:' + JSON.stringify(form.allTouched)}</div>
-                  <div>{'isEditting:' + JSON.stringify(form.isEditing)}</div>
-                  <div>
-                    {'isValidating:' + JSON.stringify(form.isValidating)}
-                  </div>
-                  <div>
-                    {'isSubmitting:' + JSON.stringify(form.isSubmitting)}
-                  </div>
+                  <div>{'descriptor:' + JSON.stringify(window.descriptor)}</div>
                 </div>
               ) : null}
               {watchList.length > 0

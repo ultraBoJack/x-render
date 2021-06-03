@@ -233,6 +233,12 @@ export function idToSchema(flatten, id = '#', final = false) {
     if (final) {
       schema.$id && delete schema.$id;
     }
+    if (schema.type === 'array') {
+      if (!schema.items) schema.items = {}
+      if (!schema.items.type) {
+        schema.items.type = 'object'
+      }
+    }
     if (item.children.length > 0) {
       item.children.forEach(child => {
         let childId = child;
@@ -597,6 +603,22 @@ export const newSchemaToOld = setting => {
     return { propsSchema: schema, ...rest };
   }
   return setting;
+};
+
+export const schemaToState = value => {
+  const schema = oldSchemaToNew(value);
+  const frProps = Object.keys(schema).reduce((rst, cur) => {
+    if (['type', 'properties'].includes(cur)) return rst;
+    return { ...rst, [cur]: schema[cur] };
+  }, {});
+  const isNewVersion = !(value && value.propsSchema);
+
+  return {
+    schema,
+    frProps,
+    formData: schema.formData || {},
+    isNewVersion,
+  };
 };
 
 export function defaultGetValueFromEvent(valuePropName, ...args) {

@@ -7,9 +7,10 @@ import { useSet } from '../../../hooks';
 import { getDataPath, getKeyFromPath, getDisplayValue } from '../../../utils';
 import { Button, Table, Drawer, Space, Popconfirm } from 'antd';
 // import ArrowDown from '../../../components/ArrowDown';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import ErrorMessage from '../../RenderField/ErrorMessage';
 
-const FIELD_LENGTH = 120;
+const FIELD_LENGTH = 170;
 
 const DrawerList = ({
   displayList = [],
@@ -74,6 +75,7 @@ const DrawerList = ({
     title: '操作',
     key: '$action',
     fixed: 'right',
+    width: 120,
     render: (value, record, idx) => {
       const index = (value && value.$idx) || 0;
       return (
@@ -89,12 +91,18 @@ const DrawerList = ({
               <a>删除</a>
             </Popconfirm>
           )}
-          {/* <ArrowUp height={18} width={24} onClick={() => moveItemUp(index)} />
-            <ArrowDown
-              height={18}
-              width={24}
-              onClick={() => moveItemDown(index)}
-            /> */}
+          {!props.hideMove && (
+            <>
+              <ArrowUpOutlined
+                style={{ color: '#1890ff', fontSize: 16, marginLeft: 4 }}
+                onClick={() => moveItemUp(idx)}
+              />
+              <ArrowDownOutlined
+                style={{ color: '#1890ff', fontSize: 16, marginLeft: 4 }}
+                onClick={() => moveItemDown(idx)}
+              />
+            </>
+          )}
         </Space>
       );
     },

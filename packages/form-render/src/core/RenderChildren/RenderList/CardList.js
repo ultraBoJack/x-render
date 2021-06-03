@@ -5,7 +5,12 @@ import React from 'react';
 import Core from '../../index';
 import { Button, Space, Popconfirm } from 'antd';
 // import ArrowDown from '../../../components/ArrowDown';
-import { DeleteOutlined, CopyOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  CopyOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+} from '@ant-design/icons';
 
 const CardList = ({
   displayList = [],
@@ -15,10 +20,22 @@ const CardList = ({
   deleteItem,
   copyItem,
   addItem,
+  moveItemUp,
+  moveItemDown,
   displayType,
   getFieldsProps,
 }) => {
   const { props = {}, itemProps } = schema;
+
+  let addBtnProps = {
+    type: 'dashed',
+    children: '新增一条',
+  };
+
+  if (props.addBtnProps && typeof props.addBtnProps === 'object') {
+    addBtnProps = { ...addBtnProps, ...props.addBtnProps };
+  }
+
   return (
     <>
       <div className="fr-card-list">
@@ -56,17 +73,25 @@ const CardList = ({
                     onClick={() => copyItem(idx)}
                   />
                 )}
+                {!props.hideMove && (
+                  <>
+                    <ArrowUpOutlined
+                      style={{ fontSize: 16, marginLeft: 4 }}
+                      onClick={() => moveItemUp(idx)}
+                    />
+                    <ArrowDownOutlined
+                      style={{ fontSize: 16, marginLeft: 4 }}
+                      onClick={() => moveItemDown(idx)}
+                    />
+                  </>
+                )}
               </Space>
             </div>
           );
         })}
       </div>
       <div style={{ marginTop: displayList.length > 0 ? 0 : 8 }}>
-        {!props.hideAdd && (
-          <Button type="dashed" onClick={addItem}>
-            新增一条
-          </Button>
-        )}
+        {!props.hideAdd && <Button onClick={addItem} {...addBtnProps} />}
         {Array.isArray(props.buttons)
           ? props.buttons.map((item, idx) => {
               const { callback, text, html } = item;
